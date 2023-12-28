@@ -6,6 +6,6 @@ exports.dbConfig = () => {
         console.log('Connected to db...')
     }).catch((err)=>{
         console.log(process.env.PASS)
-        console.log(`Error connecteing to the db \n${err}`)
+        console.log(`Error connecting to the db \n${err}`)
     })
 }

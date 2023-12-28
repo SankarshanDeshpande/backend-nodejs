@@ -1,19 +1,62 @@
 const express = require('express');
 const router = express.Router();
-
-router.get('/',(req,res,next)=>{
-    res.json("get all users information")
-})
-
-router.delete('/:id',(req,res,next)=>{
-    res.json("delete all user information")
-})
-
-router.delete('/',(req,res,next)=>{
-    res.json("get all user information")
-})
+const User = require('../models/user.model');
 
 router.post('/',(req,res,next)=>{
-    res.json("insert user information")
+    const {firstName,lastName,dept,age} = req.body;
+    
+    const user = new User({
+        firstName: firstName,
+        lastName: lastName,
+        dept: dept,
+        age: age
+    });
+
+    user
+        .save(user)
+        .then(data => {
+            res.json({
+                status: 201,
+                message: `${data.firstName} is created successfully...`,
+            });
+        })
+        .catch(err=>{
+            res.json({
+                status:500,
+                message:err.message || "some err with user model object.",
+        });
+    });
+});
+
+router.get('/',(req,res,next)=>{
+    User.find().then(data => res.json({
+        status: 200,
+        data: data
+    })).catch(err => res.json({status:500,message: err.message || "some error..."}))
+});
+
+router.get('/:id',(req,res,next)=>{
+    const id = req.params.id;
+    User.findById(id).then(data => res.json({
+        status: 200,
+        data: data
+    })).catch(err => res.json({status:500,message: err.message || "some error..."}))
+});
+
+router.delete('/:id',(req,res,next)=>{
+    const id = req.params.id;
+    User.findByIdAndDelete(id).then(data => res.json({
+        status: 200,
+        data: 'User deleted'
+    })).catch(err => res.json({status:500,message: err.message || "some error..."}))
 })
+
+router.put('/:id',(req,res,next)=>{
+    const id = req.params.id;
+    User.findByIdAndUpdate(id,req.body).then(data => res.json({
+        status: 202,
+        data: `User is updated...`
+    })).catch(err => res.json({status:500,message: err.message || "some error..."}))
+});
+
 module.exports = router;

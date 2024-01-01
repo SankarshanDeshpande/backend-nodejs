@@ -49,16 +49,13 @@ router.post("/login", async (req, res) => {
       res.json({status:401, message:'invalid credentials'})
     }
   }catch(err){
-    res.json({status:500, message: 'something went wrong...'});
+    res.json({status:500, message: 'someting went wrong...'});
   }
 });
 
 router.post('/user-profile',verifyToken,(req,res,next)=>{
   const email = req.user['data'][2];
-
   res.json({status:200, message:"it's a secured url",data:req.user})
-
-
 })
 
 router.get("/", (req, res, next) => {

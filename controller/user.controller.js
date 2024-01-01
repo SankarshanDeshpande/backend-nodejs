@@ -29,10 +29,9 @@ router.post('/',(req,res,next)=>{
 });
 
 router.get('/',(req,res,next)=>{
-    User.find().then(data => res.json({
-        status: 200,
-        data: data
-    })).catch(err => res.json({status:500,message: err.message || "some error..."}))
+    User.find().then(data => res.json(
+        data
+    )).catch(err => res.json({status:500,message: err.message || "some error..."}))
 });
 
 router.get('/:id',(req,res,next)=>{
